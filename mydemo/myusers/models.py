@@ -9,6 +9,11 @@ GENDER_FIELD_CHOICES = (
     ('Female', 'Female'),
 )
 
+PROFILE_FIELD_CHOICES = (
+    ('0', 'Additional'),
+    ('1', 'Profile'),
+)
+
 def image_upload_path(instance, filename):
     return os.path.join("images", filename)
 
@@ -28,6 +33,23 @@ class UserProfile(models.Model):
 		db_table = "user_profile"
 		verbose_name = "User Profile"
 		verbose_name_plural = "User Profiles"
+
+	def __str__(self):
+		return f'{self.id}'
+
+
+class UserImage(models.Model):
+	user_profile = models.ForeignKey(UserProfile, verbose_name="User Profile", related_name="myprofile", null=False, on_delete=models.CASCADE)
+	image = models.ImageField(upload_to=image_upload_path, verbose_name="User Image", null=True, blank=True)
+	image_type = models.CharField(verbose_name="Image Type", choices=PROFILE_FIELD_CHOICES, null=False, max_length=15)
+	created_at = models.DateTimeField(verbose_name="Date (created)", auto_now_add=True)
+	updated_at = models.DateTimeField(verbose_name="Date (updated)", auto_now=True)
+
+
+	class Meta:
+		db_table = "user_image"
+		verbose_name = "User Image"
+		verbose_name_plural = "User Images"
 
 	def __str__(self):
 		return f'{self.id}'
