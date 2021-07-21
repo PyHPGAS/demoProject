@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     # user apps
     'address',
     'myusers',
+    'PickList',
+    'OtherDetail',
     # third party
     'rest_framework'
 ]
